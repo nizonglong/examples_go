@@ -1,13 +1,13 @@
-package main
+package gorm
 
 import (
-	"examples/psql_example"
+	"examples_go/define"
 	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres" // 这里很容易忘记加导包
 )
 
-func main() {
+func MainWhere() {
 	db, err := gorm.Open("postgres", "host=localhost user=postgres dbname=example sslmode=disable password=nizonglong")
 	defer db.Close()
 	if err != nil {
@@ -16,13 +16,13 @@ func main() {
 		fmt.Println("连接成功")
 	}
 
-	var user psql_example.User
+	var user define.User
 	// 获取第一个匹配记录
 	db.Table("user").Where("nick_name = ?", "test5").First(&user)
 	// SELECT * FROM user WHERE nick_name = 'test5' limit 1;
 	fmt.Println(user)
 
-	var users []psql_example.User
+	var users []define.User
 	// 获取所有匹配记录
 	db.Table("user").Where("id > ?", 7).Find(&users)
 	// SELECT * FROM user WHERE id > 7;
@@ -41,7 +41,7 @@ func main() {
 	fmt.Println(users)
 
 	// Struct
-	db.Table("user").Where(&psql_example.User{NickName: "test7", Age: 25}).First(&user)
+	db.Table("user").Where(&define.User{NickName: "test7", Age: 25}).First(&user)
 	// SELECT * FROM user WHERE nick_name = "test7" AND age = 25 LIMIT 1;
 	fmt.Println(user)
 

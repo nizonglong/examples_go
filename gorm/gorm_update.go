@@ -1,13 +1,13 @@
-package main
+package gorm
 
 import (
-	"examples/psql_example"
+	"examples_go/define"
 	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres" // 这里很容易忘记加导包
 )
 
-func main() {
+func MainUpdate() {
 	db, err := gorm.Open("postgres", "host=localhost user=postgres dbname=example sslmode=disable password=nizonglong")
 	defer db.Close()
 	if err != nil {
@@ -19,7 +19,7 @@ func main() {
 	/**
 	 * 如果只想更新更改的字段，可以使用Update, Updates
 	 */
-	var user = psql_example.User{
+	var user = define.User{
 		Id:       22,
 		NickName: "test",
 		Age:      16,
@@ -38,11 +38,11 @@ func main() {
 	db.Table("user").Model(&user).Updates(map[string]interface{}{"nick_name": "test-nick", "age": 18})
 
 	// 使用`struct`更新多个属性，只会更新这些更改的和非空白字段
-	db.Table("user").Model(&user).Updates(psql_example.User{NickName: "hello", Age: 18})
+	db.Table("user").Model(&user).Updates(define.User{NickName: "hello", Age: 18})
 	// UPDATE users SET nick_name='hello', age=18 WHERE id = 18;
 
 	// 使用`RowsAffected`获取更新记录计数
-	count := db.Model(psql_example.User{}).Updates(psql_example.User{NickName: "hello", Age: 18}).RowsAffected
+	count := db.Model(define.User{}).Updates(define.User{NickName: "hello", Age: 18}).RowsAffected
 	fmt.Println(count)
 
 }

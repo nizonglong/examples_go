@@ -1,13 +1,13 @@
-package main
+package gorm
 
 import (
-	"examples/psql_example"
+	"examples_go/define"
 	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres" // 这里很容易忘记加导包
 )
 
-func main() {
+func MainOrder() {
 	db, err := gorm.Open("postgres", "host=localhost user=postgres dbname=example sslmode=disable password=nizonglong")
 	defer db.Close()
 	if err != nil {
@@ -16,14 +16,14 @@ func main() {
 		fmt.Println("连接成功")
 	}
 
-	var users []psql_example.User
+	var users []define.User
 
 	db.Table("user").Where("nick_name = ?", "test7").Or("nick_name = ?", "test8").Find(&users)
 	// SELECT * FROM user WHERE nick_name = 'test7' OR nick_name = 'test8';
 	fmt.Println(users)
 
 	// Struct
-	db.Table("user").Where("nick_name = 'test6'").Or(psql_example.User{NickName: "test2"}).Find(&users)
+	db.Table("user").Where("nick_name = 'test6'").Or(define.User{NickName: "test2"}).Find(&users)
 	// SELECT * FROM user WHERE nick_name = 'test6' OR nick_name = 'test2';
 	fmt.Println(users)
 
@@ -43,7 +43,7 @@ func main() {
 	// SELECT * FROM user ORDER BY age desc, nick_name;
 	fmt.Println(users)
 
-	var users1, users2 []psql_example.User
+	var users1, users2 []define.User
 	// ReOrder
 	db.Table("user").Order("age desc").Find(&users1).Order("age", true).Find(&users2)
 	// SELECT * FROM user ORDER BY age desc; (users1)

@@ -1,11 +1,11 @@
-package main
+package set_go
 
 import (
 	"fmt"
 	"github.com/fatih/set"
 )
 
-func main() {
+func MainOperation() {
 	// 初始化a和b
 	a := set.New(set.ThreadSafe)
 	a.Add("one", "two", "three")

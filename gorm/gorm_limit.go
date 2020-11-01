@@ -1,13 +1,13 @@
-package main
+package gorm
 
 import (
-	"examples/psql_example"
+	"examples_go/define"
 	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres" // 这里很容易忘记加导包
 )
 
-func main() {
+func MainLimit() {
 	db, err := gorm.Open("postgres", "host=localhost user=postgres dbname=example sslmode=disable password=nizonglong")
 	defer db.Close()
 	if err != nil {
@@ -16,8 +16,8 @@ func main() {
 		fmt.Println("连接成功")
 	}
 
-	var users1 []psql_example.User
-	var users2 []psql_example.User
+	var users1 []define.User
+	var users2 []define.User
 
 	db.Table("user").Limit(3).Find(&users1)
 	//// SELECT * FROM user LIMIT 3;

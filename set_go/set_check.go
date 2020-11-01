@@ -1,11 +1,11 @@
-package main
+package set_go
 
 import (
 	"fmt"
 	"github.com/fatih/set"
 )
 
-func main() {
+func MainCheck() {
 	// set 是无序不重复的集合，因此每一次存取，读取都是无序随机的
 
 	// 创建一个0 item 的set

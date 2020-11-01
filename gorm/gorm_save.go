@@ -1,13 +1,13 @@
-package main
+package gorm
 
 import (
-	"examples/psql_example"
+	"examples_go/define"
 	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres" // 这里很容易忘记加导包
 )
 
-func main() {
+func MainSave() {
 	db, err := gorm.Open("postgres", "host=localhost user=postgres dbname=example sslmode=disable password=nizonglong")
 	defer db.Close()
 	if err != nil {
@@ -16,7 +16,7 @@ func main() {
 		fmt.Println("连接成功")
 	}
 
-	var user psql_example.User
+	var user define.User
 	// Save将包括执行更新SQL时的所有字段，即使它没有更改
 	db.First(&user)
 	user.Id = 12

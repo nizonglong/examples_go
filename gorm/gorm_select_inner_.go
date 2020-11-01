@@ -1,13 +1,13 @@
-package main
+package gorm
 
 import (
-	"examples/psql_example"
+	"examples_go/define"
 	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres" // 这里很容易忘记加导包
 )
 
-func main() {
+func MainSelectInner() {
 	db, err := gorm.Open("postgres", "host=localhost user=postgres dbname=example sslmode=disable password=nizonglong")
 	defer db.Close()
 	if err != nil {
@@ -17,8 +17,8 @@ func main() {
 	}
 
 	// 使用主键查询时，应仔细检查所传递的值是否为有效主键，以避免SQL注入
-	var user psql_example.User
-	var users []psql_example.User
+	var user define.User
+	var users []define.User
 
 	// 按主键获取
 	db.Table("user").First(&user, 23)
@@ -35,7 +35,7 @@ func main() {
 	fmt.Println(users)
 
 	// Struct
-	db.Table("user").Find(&users, psql_example.User{Age: 20})
+	db.Table("user").Find(&users, define.User{Age: 20})
 	// SELECT * FROM user WHERE age = 20;
 	fmt.Println(users)
 

@@ -1,14 +1,14 @@
-package main
+package gorm
 
 import (
 	"bytes"
-	"examples/psql_example"
+	"examples_go/define"
 	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres" // 这里很容易忘记加导包
 )
 
-func main() {
+func MainCreate() {
 	db, err := gorm.Open("postgres", "host=localhost user=postgres dbname=example sslmode=disable password=nizonglong")
 	defer db.Close()
 	if err != nil {
@@ -18,7 +18,7 @@ func main() {
 	}
 
 	// 单个创建插入
-	user := psql_example.User{
+	user := define.User{
 		Uuid:     "uidtest01",
 		NickName: "test01",
 		Email:    "test01@qq.com",
@@ -35,9 +35,9 @@ func main() {
 
 	db.Table("user").Save(&user)
 
-	users := make([]*psql_example.User, 0)
+	users := make([]*define.User, 0)
 	for i := 0; i < 14; i++ {
-		user := psql_example.User{
+		user := define.User{
 			Uuid:     fmt.Sprintf("uuid%v", i),
 			NickName: fmt.Sprintf("test%v", i),
 			Email:    fmt.Sprintf("test%v@qq.com", i),
@@ -53,7 +53,7 @@ func main() {
 }
 
 // BatchSave 批量插入数据
-func BatchSave(db *gorm.DB, users []*psql_example.User) error {
+func BatchSave(db *gorm.DB, users []*define.User) error {
 	var buffer bytes.Buffer
 	sql := "insert into User (uuid,nick_name,password,email,age) values"
 	if _, err := buffer.WriteString(sql); err != nil {

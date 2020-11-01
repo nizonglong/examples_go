@@ -1,13 +1,13 @@
-package main
+package gorm
 
 import (
-	"examples/psql_example"
+	"examples_go/define"
 	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres" // 这里很容易忘记加导包
 )
 
-func main() {
+func MainNot() {
 	db, err := gorm.Open("postgres", "host=localhost user=postgres dbname=example sslmode=disable password=nizonglong")
 	defer db.Close()
 	if err != nil {
@@ -16,8 +16,8 @@ func main() {
 		fmt.Println("连接成功")
 	}
 
-	var user psql_example.User
-	var users []psql_example.User
+	var user define.User
+	var users []define.User
 	// 下面的输出结果很可能都一样，因为每次取First都是相同的值，除非排除第一个
 
 	db.Table("user").Not("nick_name", "test01").First(&user)
@@ -44,7 +44,7 @@ func main() {
 	fmt.Println(user)
 
 	// Struct
-	db.Table("user").Not(psql_example.User{NickName: "test10"}).First(&user)
+	db.Table("user").Not(define.User{NickName: "test10"}).First(&user)
 	// SELECT * FROM user WHERE nick_name <> "test10";
 	fmt.Println(user)
 }
